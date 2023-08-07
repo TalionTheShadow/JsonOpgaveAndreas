@@ -14,35 +14,36 @@ namespace JsonOpgaveAndreas
 
             foreach (QuizQuestion question in quizData.Spørgsmål)
             {
-                Console.WriteLine("Spørgsmål: " + question.Spørgsmål1);
-                Console.WriteLine("Muligheder:");
-
-                // Display options with numbers (1, 2, 3, etc.) for the user to choose from.
-                for (int i = 0; i < question.Muligheder.Length; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {question.Muligheder[i]}");
-                }
-
-                // Prompt the user for input
-                int userChoice;
+                bool answeredCorrectly = false;
                 do
                 {
-                    Console.Write("Indtast dit svar ved at vælge et tal (1, 2, 3, ...): ");
-                } while (!int.TryParse(Console.ReadLine(), out userChoice) || userChoice < 1 || userChoice > question.Muligheder.Length);
+                    Console.WriteLine("Spørgsmål: " + question.Spørgsmål1);
+                    Console.WriteLine("Muligheder:");
 
-                // Check the user's answer
-                if (question.Muligheder[userChoice - 1] == question.Svar)
-                {
-                    Console.WriteLine("Korrekt svar!");
-                    Console.WriteLine("Forklaring: " + question.Forklaring);
-                }
-                else
-                {
-                    Console.WriteLine("Forkert svar!");
-                    Console.WriteLine("Korrekt svar er: " + question.Svar);
-                }
+                    for (int i = 0; i < question.Muligheder.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {question.Muligheder[i]}");
+                    }
 
-                Console.WriteLine();
+                    int userChoice;
+                    do
+                    {
+                        Console.Write("Indtast dit svar ved at vælge et tal (1, 2, 3, ...): ");
+                    } while (!int.TryParse(Console.ReadLine(), out userChoice) || userChoice < 1 || userChoice > question.Muligheder.Length);
+
+                    if (question.Muligheder[userChoice - 1] == question.Svar)
+                    {
+                        Console.WriteLine("Korrekt svar!");
+                        Console.WriteLine("Forklaring: " + question.Forklaring);
+                        answeredCorrectly = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Forkert svar! Prøv igen.");
+                    }
+
+                    Console.WriteLine();
+                } while (!answeredCorrectly);
             }
         }
     }
